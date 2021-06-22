@@ -1,0 +1,53 @@
+﻿@model DSWI_TiendaJulio.Models.Cliente
+@using DSWI_TiendaJulio.Models
+@{
+    ViewBag.Title = "Comprar";
+    Layout = "~/Views/Shared/_LayoutCarrito.cshtml";
+}
+
+<h2>Comprar</h2>
+
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dni)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefono)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    @Html.Partial("_PartialCarrito", ViewBag.carrito as List<Item>)
+</div>
+<p>
+    @Html.ActionLink("Generar Pedido", "Pedido", null, new { @class = "btn btn-default" }) |
+    @Html.ActionLink("Retornar", "Tienda", null, new { @class = "btn btn-default" })
+</p>

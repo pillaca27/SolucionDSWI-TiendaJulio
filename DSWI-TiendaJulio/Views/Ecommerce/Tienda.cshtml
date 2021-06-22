@@ -1,0 +1,35 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.Producto>
+
+@{
+    ViewBag.Title = "Tienda";
+    Layout = "~/Views/Shared/_LayoutCarrito.cshtml";
+}
+<div class="section">
+    <div class="container">
+        <div id="store" class="col-md-12">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3 col-xs-6">
+                        <div class="product">
+                            <div class="product-img">
+                                <img src="@Url.Content(string.Format("~/imagenes/{0}.jpg",item.COD_PRO))" />
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Categoría">Categoría</p>
+                                <h3 class="product-name">@Html.DisplayFor(modelItem => item.NOM_PRO)</h3>
+                                <h4 class="product-price">@Html.DisplayFor(modelItem => item.PRECIO_VENTA)</h4>
+                                <h4 class="product-label">@Html.DisplayFor(modelItem => item.STOCK)</h4>
+                            </div>
+                            <div class="add-to-cart">
+                                <button class="add-to-cart-btn">
+                                    <i class="fa fa-shopping-cart"></i>@Html.ActionLink("Add to card", "Agregar", new { id = item.COD_PRO })
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

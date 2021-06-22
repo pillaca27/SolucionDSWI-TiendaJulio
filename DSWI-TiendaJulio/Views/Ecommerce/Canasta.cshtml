@@ -1,0 +1,119 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.Item>
+
+@{
+    ViewBag.Title = "Canasta";
+    Layout = "~/Views/Shared/_LayoutCarrito.cshtml";
+}
+<div class="section">
+    <div class="container">
+        <div class="col-md-30 order-details">
+            <div class="section-title text-center">
+                <h3 class="title">CANASTA</h3>
+            </div>
+            <table class="table">
+                <tr class="order-col">
+                    <th>
+                        @Html.DisplayNameFor(model => model.codigo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.precio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.cantidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.monto)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr class="order-col">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.codigo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.cantidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.monto)
+                        </td>
+                        <td>
+                            <img src="@Url.Content(string.Format("~/imagenes/{0}.jpg",item.codigo))" />
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.codigo })
+                        </td>
+                    </tr>
+                }
+
+                <tr class="order-col">
+                    <td><strong>Total del Pedido</strong></td>
+                    <td class="order-total">@Model.Sum(m => m.monto) </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            @Html.ActionLink("Ir a Comprar", "Comprar", null, new { @class = "primary-btn order-submit" }) |
+            @Html.ActionLink("Tienda", "Tienda", null, new { @class = "primary-btn order-submit" })
+        </div>
+    </div>
+</div>
+
+    <!--
+    <div class="section">
+        <div class="container">
+            <div class="col-md-30 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">CANASTA</h3>
+                </div>
+                <div class="order-summary">
+                    <div class="order-col">
+                        <div><strong>CODPRO</strong></div>
+                        <div><strong>DESCRIPCION</strong></div>
+                        <div><strong>PRECIO</strong></div>
+                        <div><strong>CANTIDAD</strong></div>
+                        <div><strong>MONTO</strong></div>
+                        <div><strong>IMAGEN</strong></div>
+                        <div><strong>ACCION</strong></div>
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="order-products">
+                            <div class="order-col">
+                                <div>@Html.DisplayFor(modelItem => item.codigo)</div>
+                                <div>@Html.DisplayFor(modelItem => item.descripcion)</div>
+                                <div>@Html.DisplayFor(modelItem => item.precio)</div>
+                                <div>@Html.DisplayFor(modelItem => item.cantidad)</div>
+                                <div>@Html.DisplayFor(modelItem => item.monto)</div>
+                                <div><img src="@Url.Content(string.Format("~/imagenes/{0}.jpg",item.codigo))" /></div>
+                                <div>@Html.ActionLink("Eliminar", "Delete", new { id = item.codigo })</div>
+                            </div>
+                        </div>
+                    }
+
+
+                        <div class="order-col">
+                            <div><strong>TOTAL</strong></div>
+                            <div><strong class="order-total">@Model.Sum(m => m.monto)</strong></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+            <div>
+            @Html.ActionLink("Ir a Comprar", "Comprar", null, new { @class = "primary-btn order-submit" }) |
+                @Html.ActionLink("Tienda", "Tienda", null, new { @class = "primary-btn order-submit" })
+            </div>
+    </div>
+    -->

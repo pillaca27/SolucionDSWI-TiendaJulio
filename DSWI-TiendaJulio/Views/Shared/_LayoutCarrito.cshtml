@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" />
+    <link type="text/css" rel="stylesheet" href="~/Content/2bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/slick.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/slick-theme.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/nouislider.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/font-awesome.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/style.css" />
+
+    <title>@ViewBag.title - Tienda Julio</title>
+
+</head>
+<body>
+    <header>
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a href="#"><i class="fa fa-phone"></i> +51 997 826 773</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> tiendajulio@gmail.com</a></li>
+                    <li><a href="#"><i class="fa fa-map-marker"></i> San Isidro</a></li>
+                </ul>
+                <ul class="header-links pull-right">
+                    @if (ViewBag.usuario == null)
+                    {
+                        <li><i class="fa fa-user-o"></i>@Html.ActionLink("Mi Cuenta", "Inicio", "ECommerce")</li>
+                        <li>
+                            <a href="login.html">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                Salir
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a href="login.html"><i class="fa fa-user-o"></i> @ViewBag.usuario </a></li>
+                        <li>
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            @Html.ActionLink("Cerrar Sesion", "Cerrar", "ECommerce")
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div id="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a href="index.html" class="logo">
+                                <img src="~/imagenes/logo.png" alt="" style="width: 250px; height:100px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="header-search">
+                            @using (Html.BeginForm("Tienda", "ECommerce"))
+                            {
+                                <form>
+                                    @Html.TextBox("nombre", null, new { @class = "input", @placeholder = "Search here" })
+                                    <button class="search-btn">Consultar</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-1 clearfix">
+                        <div class="header-ctn">
+                            <div>
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <a href="@Url.Action("Canasta", "Ecommerce")"> <i class="fa fa-shopping-cart"></i>
+                                        <span>Tu carrito</span>
+                                        <div class="qty">@ViewBag.totalcarrito</div>
+                                    </a>
+                                </a>
+                            </div>
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav id="navigation">
+        <div class="container">
+            <div id="responsive-nav">
+                <ul class="main-nav nav navbar-nav">
+                    <li class="active"><a href="@Url.Action("Tienda", "Ecommerce", new { @nombre = "Inicio" })">Inicio</a></li>
+                    <li><a href="@Url.Action("Tienda", "Ecommerce", new { @nombre = "Bebidas" })">Bebidas</a></li>
+                    <li><a href="@Url.Action("Tienda", "Ecommerce", new { @nombre = "Snacks" })">Snacks</a></li>
+                    <li><a href="@Url.Action("Tienda", "Ecommerce", new { @nombre = "Galletas" })">Galletas</a></li>
+                    <li><a href="@Url.Action("Tienda", "Ecommerce", new { @nombre = "Dulces" })">Dulces</a></li>
+                    <li><a href="@Url.Action("Tienda", "Ecommerce", new { @nombre = "Salados" })">Salados</a></li>
+                </ul>
+                </div>
+        </div>
+    </nav>
+    @RenderBody()
+    <footer id="footer">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Sobre Nosotros</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut.
+                            </p>
+                            <ul class="footer-links">
+                                <li><a href="#"><i class="fa fa-map-marker"></i>San Isidro</a></li>
+                                <li><a href="#"><i class="fa fa-phone"></i>+51 997 826 773</a></li>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i>tiendajulio@gmail.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Categorías</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Galleras</a></li>
+                                <li><a href="#">Snacks</a></li>
+                                <li><a href="#">Chocolates</a></li>
+                                <li><a href="#">Bebidas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clearfix visible-xs"></div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Información</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Sobre Nosotros</a></li>
+                                <li><a href="#">Contáctenos</a></li>
+                                <li><a href="#">Política de Privacidad</a></li>
+                                <li><a href="#">Términos & Condiciones</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Servicios</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Mi cuentas</a></li>
+                                <li><a href="#">Ver carrito</a></li>
+                                <li><a href="#">Ayuda</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="bottom-footer" class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <span class="copyright">
+                            Copyright &copy;
+                            @DateTime.Now.Year Todos los derechos reservados.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/2bootstrap.min.js"></script>
+    <script src="~/Scripts/slick.min.js"></script>
+    <script src="~/Scripts/nouislider.min.js"></script>
+    <script src="~/Scripts/jquery.zoom.min.js"></script>
+    <script src="~/Scripts/main.js"></script>
+</body>
+</html>
