@@ -1,0 +1,93 @@
+﻿@model DSWI_TiendaJulio.Models.Cliente
+
+@using DSWI_TiendaJulio.Models;
+
+
+@{
+    ViewBag.Title = "CrudCliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CRUD CLIENTE</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.dni, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dni, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dni, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.direccion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.direccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.COD_DIS, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("COD_DIS", (SelectList)ViewBag.distritos)
+                @Html.ValidationMessageFor(model => model.COD_DIS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idusuario, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idusuario", (SelectList)ViewBag.usuarios)
+                @Html.ValidationMessageFor(model => model.idusuario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Limpiar", "Clienteid", new { id = "" }, new { @class = "btn btn-default" })
+                <input type="submit" value="Actualizar" class="btn btn-default" />
+                @Html.ActionLink("Eliminar", "Eliminarcli", new { id = Model.dni }, new { @class = "btn btn-default", onclick = "return confirm('¿Estás seguro de eliminar?');" })
+
+
+            </div>
+        </div>
+        <hr />
+
+        <div style="color: red; font-size:20px">
+            @ViewBag.mensaje
+        </div>
+    </div>
+}
+
+<div class="div-lista">
+    <div>
+        @Html.Partial("_PartialCliente", (IEnumerable<Cliente>)ViewBag.clientes)
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

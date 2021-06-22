@@ -232,6 +232,8 @@
     <Content Include="Views\Shared\_PartialProveedor.cshtml" />
     <Content Include="Views\Shared\_PartialUsuario.cshtml" />
     <Content Include="Views\Ecommerce\Registrarse.cshtml" />
+    <Content Include="Views\Ecommerce\CrudCliente.cshtml" />
+    <Content Include="Views\Shared\_PartialCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

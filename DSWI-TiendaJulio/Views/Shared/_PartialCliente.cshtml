@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.Cliente>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.dni)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idusuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COD_DIS)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.ActionLink(@Html.DisplayFor(modelItem => item.dni).ToString(), "Selectcli", new { id = item.dni })
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.nombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.telefono)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.direccion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.idusuario)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.COD_DIS)
+    </td>
+
+</tr>
+}
+
+</table>

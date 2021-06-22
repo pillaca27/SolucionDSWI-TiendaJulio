@@ -53,7 +53,7 @@ namespace DSWI_TiendaJulio.Controllers
                 reg.telefono = dr.GetString(2);
                 reg.direccion = dr.GetString(3);
                 reg.COD_DIS = dr.GetString(4);
-                reg.usuario = dr.GetString(5);
+                reg.idusuario = dr.GetString(5);
                 temporal.Add(reg);
             }
             dr.Close(); cn.Close();
@@ -1120,5 +1120,123 @@ namespace DSWI_TiendaJulio.Controllers
             }
             return RedirectToAction("CrudProducto");
         }
+
+        //CLIENTE
+
+        Cliente buscarCliente(string id = "")
+        {
+            return clientes().Where(c => c.dni == id).FirstOrDefault();
+        }
+
+        Boolean verificaCliente(string id)
+        {
+            return (buscarCliente(id) != null ? true : false);
+        }
+
+        public ActionResult CrudCliente(string id = "", int eliminar = 0)
+        {
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
+
+            ViewBag.usuarios = new SelectList(usuarios(), "idusuario", "nomusuario");
+
+            ViewBag.clientes = clientes();
+
+            Cliente reg = (id == "" ? new Cliente() : buscarCliente(id));
+
+            if (eliminar == 1)
+            {
+                ViewBag.mensaje = "Se eliminó Correctamente";
+            }
+            else if (eliminar == -1)
+            {
+                ViewBag.mensaje = "No se encuentra registro";
+            }
+
+            return View(reg);
+        }
+
+        [HttpPost]
+        public ActionResult CrudCliente(Cliente reg)
+        {
+            string procedure = "";
+            if (verificaCliente(reg.dni) == false)
+            {
+                procedure = "sp_agrega_cliente";
+                ViewBag.mensaje = "Registro Agregado";
+            }
+            else
+            {
+                procedure = "sp_actualiza_cliente";
+                ViewBag.mensaje = "Registro Actualizado";
+            }
+
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procedure, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dni", reg.dni);
+                cmd.Parameters.AddWithValue("@nombre", reg.nombre);
+                cmd.Parameters.AddWithValue("@telefono", reg.telefono);
+                cmd.Parameters.AddWithValue("@direccion", reg.direccion);
+                cmd.Parameters.AddWithValue("@distrito", reg.COD_DIS);
+                cmd.Parameters.AddWithValue("@usuario", reg.idusuario);
+
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
+            ViewBag.usuarios = new SelectList(usuarios(), "idusuario", "nomusuario", reg.idusuario);
+            ViewBag.clientes = clientes();
+            return View(reg);
+        }
+
+
+        public ActionResult EliminarCliente(string id)
+        {
+            int i = 0;
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                if (id == null)
+                {
+                    i = -1;
+                    ViewBag.mensaje = "El registro ya ha sido eliminado, limpie los valores";
+                }
+                else
+                {
+                    SqlCommand cmd = new SqlCommand("sp_eliminar_cliente", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cn.Open();
+                    i = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return RedirectToAction("Clienteid", new { id = "", eliminar = i });
+        }
+
+        public ActionResult Selectcli(string id)
+        {
+            return RedirectToAction("CrudCliente", new { id = id });
+
+        }
+
+
     }
 }
