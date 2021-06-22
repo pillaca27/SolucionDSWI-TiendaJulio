@@ -1211,7 +1211,7 @@ namespace DSWI_TiendaJulio.Controllers
                 }
                 else
                 {
-                    SqlCommand cmd = new SqlCommand("sp_eliminar_cliente", cn);
+                    SqlCommand cmd = new SqlCommand("sp_elimina_cliente", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     cn.Open();
