@@ -1,4 +1,4 @@
-﻿@model DSWI_TiendaJulio.Models.Cliente
+@model DSWI_TiendaJulio.Models.Cliente
 @using DSWI_TiendaJulio.Models
 @{
     ViewBag.Title = "Comprar";
@@ -7,47 +7,54 @@
 
 <h2>Comprar</h2>
 
-<div>
+<br />
+<br />
+<div class="container" >
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-5 order-details">
+            <div class="order-summary">
+                <div class="order-products">
+                    <div class="section-title text-center">
+                        <h3 class="title">Datos Personales</h3>
+                    </div>
+                    <div class="order-col">
+                        <div><strong><font style="text-transform: uppercase;"> @Html.DisplayNameFor(model => model.dni)</font></strong></div>
+                        <div>@Html.DisplayFor(model => model.dni)</div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong><font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.nombre)</font></strong></div>
+                        <div>@Html.DisplayFor(model => model.nombre)</div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong><font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.direccion)</font></strong></div>
+                        <div>@Html.DisplayFor(model => model.direccion)</div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong><font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.telefono)</font></strong></div>
+                        <div>@Html.DisplayFor(model => model.telefono)</div>
+                    </div>
+                </div>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.dni)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.dni)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.direccion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.direccion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.telefono)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.telefono)
-        </dd>
-
-    </dl>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<br />
 <div>
     @Html.Partial("_PartialCarrito", ViewBag.carrito as List<Item>)
 </div>
-<p>
-    @Html.ActionLink("Generar Pedido", "Pedido", null, new { @class = "btn btn-default" }) |
-    @Html.ActionLink("Retornar", "Tienda", null, new { @class = "btn btn-default" })
-</p>
+
+<div class="container">
+    <!-- row -->
+    <div class="order-col" style="text-align:left">
+        @Html.ActionLink("Generar Pedido", "Pedido", null, new { @class = "primary-btn order-submit" }) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        @Html.ActionLink("Retornar", "Tienda", null, new { @class = "primary-btn order-submit" })
+    </div>
+            </div>
+<br />
+<br />
+
+
