@@ -3,77 +3,67 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Content/estilos.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.css">
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/navmain.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">TiendaJulio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <header>
+        <span id="button-menu" class="fa fa-bars"></span>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Mantenimiento
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("CrudEmpleado", "Ecommerce")">Empleado</a>
-                        <a class="dropdown-item" href="@Url.Action("CrudProducto", "Ecommerce")">Producto</a>
-                        <a class="dropdown-item" href="@Url.Action("CrudProveedor", "Ecommerce")">Proveedor</a>
-                        <a class="dropdown-item" href="@Url.Action("CrudCliente", "Ecommerce")">Cliente</a>
-                        <a class="dropdown-item" href="@Url.Action("CrudMarca", "Ecommerce")">Marca</a>
-                        <a class="dropdown-item" href="@Url.Action("CrudUsuario", "Ecommerce")">Usuario</a>
-                    </div>
+        <nav class="navegacion">
+            <ul class="menu">
+                <li class="title-menu">ADMINISTRADOR</li>
+
+                <li><a href="@Url.Action("Tienda", "Ecommerce")"><span class="fa fa-home icon-menu"></span>Tienda</a></li>
+
+                <li class="item-submenu" menu="1">
+                    <a href="#"><span class="fa fa-shopping-bag icon-menu"></span>@ViewBag.usuario</a>
+                    <ul class="submenu">
+                        <li class="title-menu"><span class="fa fa-shopping-bag icon-menu"></span>@ViewBag.usuario</li>
+                        <li class="go-back">Atras</li>
+
+                        <li><a href="@Url.Action("Cerrar", "Ecommerce")">Cerrar Sesión</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Consultas
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("ConsultaEmpleado", "Ecommerce")">Empleado por pedido</a>
-                        <a class="dropdown-item" href="@Url.Action("ConsultaCliente", "Ecommerce")">Cliente por nombre</a>
-                        <a class="dropdown-item" href="@Url.Action("ConsultaProducto", "Ecommerce")">Producto por nombre</a>
-                        <a class="dropdown-item" href="@Url.Action("ConsultaHistorialStock", "Ecommerce")">Historial de stock</a>
-                    </div>
+
+
+                <li class="item-submenu" menu="2">
+                    <a href="#"><span class="fa fa-suitcase icon-menu"></span>Mantenimiento</a>
+
+
+
+                    <ul class="submenu">
+                        <li class="title-menu"><span class="fa fa-suitcase icon-menu"></span>Mantenimiento</li>
+                        <li class="go-back">Atras</li>
+
+                        <li><a href="@Url.Action("CrudEmpleado", "Ecommerce")">Empleado</a></li>
+                        <li><a href="@Url.Action("CrudProducto", "Ecommerce")">Producto</a></li>
+                        <li><a href="@Url.Action("CrudProveedor", "Ecommerce")">Proveedor</a></li>
+                        <li><a href="@Url.Action("CrudCliente", "Ecommerce")">Cliente</a></li>
+                        <li><a href="@Url.Action("CrudMarca", "Ecommerce")">Marca</a></li>
+                        <li><a href="@Url.Action("CrudUsuario", "Ecommerce")">Usuario</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Transacciones
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Venta</a>
-                        <a class="dropdown-item" href="#">Compra</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Reporte
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Informe de venta/compra</a>
-                        <a class="dropdown-item" href="#">Ver pedido</a>
-                    </div>
-                </li>
+
+                <li><a href="#"><span class="fa fa-envelope icon-menu"></span>Detalle de pedidos</a></li>
+
             </ul>
-            <span class="navbar-text">
-               @ViewBag.usuario
-            </span>
-        </div>
-    </nav>
+        </nav>
+    </header>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year</p>
         </footer>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
