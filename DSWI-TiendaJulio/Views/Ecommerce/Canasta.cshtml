@@ -13,19 +13,19 @@
             <table class="table">
                 <tr class="order-col">
                     <th>
-                        @Html.DisplayNameFor(model => model.codigo)
+                        CÓDIGO
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.descripcion)
+                        DESCRIPCION
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.precio)
+                        PRECIO
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.cantidad)
+                        CANTIDAD
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.monto)
+                        MONTO
                     </th>
                     <th></th>
                     <th></th>
@@ -49,10 +49,10 @@
                             @Html.DisplayFor(modelItem => item.monto)
                         </td>
                         <td>
-                            <img src="@Url.Content(string.Format("~/imagenes/{0}.jpg",item.codigo))" />
+                            <img src="@Url.Content(string.Format("~/imagenes/{0}.jpg",item.codigo))" style="width:100px"; height="100px;" />
                         </td>
                         <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.codigo })
+                            @Html.ActionLink("Eliminar Producto", "Delete", new { id = item.codigo }, new { @class = "primary-btn order-submit" })
                         </td>
                     </tr>
                 }

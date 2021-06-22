@@ -5,46 +5,62 @@
     Layout = "~/Views/Shared/_LayoutCarrito.cshtml";
 }
 
-<h2>Comprar</h2>
-
-<br />
-<br />
-<div class="container" >
+<div class="container">
     <!-- row -->
     <div class="row">
-        <div class="col-md-5 order-details">
-            <div class="order-summary">
+        <div class="col-md-7">
+            <!-- Order Details -->
+            <div class="col-md-9 order-details">
                 <div class="order-products">
                     <div class="section-title text-center">
                         <h3 class="title">Datos Personales</h3>
                     </div>
                     <div class="order-col">
-                        <div><strong><font style="text-transform: uppercase;"> @Html.DisplayNameFor(model => model.dni)</font></strong></div>
+                        <div>
+                            <strong>
+                                <font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.dni)</font>
+                            </strong>
+                        </div>
                         <div>@Html.DisplayFor(model => model.dni)</div>
                     </div>
+                    <br />
                     <div class="order-col">
-                        <div><strong><font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.nombre)</font></strong></div>
+                        <div>
+                            <strong>
+                                <font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.nombre)</font>
+                            </strong>
+                        </div>
                         <div>@Html.DisplayFor(model => model.nombre)</div>
                     </div>
+                    <br />
                     <div class="order-col">
-                        <div><strong><font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.direccion)</font></strong></div>
+                        <div>
+                            <strong>
+                                <font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.direccion)</font>
+                            </strong>
+                        </div>
                         <div>@Html.DisplayFor(model => model.direccion)</div>
                     </div>
+                    <br />
                     <div class="order-col">
-                        <div><strong><font style="text-transform: uppercase;">@Html.DisplayNameFor(model => model.telefono)</font></strong></div>
+                        <div>
+                            <strong>
+                                <font style="text-transform: uppercase;">
+                                    @Html.DisplayNameFor(model => model.telefono)
+                                </font>
+                            </strong>
+                        </div>
                         <div>@Html.DisplayFor(model => model.telefono)</div>
                     </div>
                 </div>
-
             </div>
+
+        </div>
+
+        <div class="col-md-5 order-details">
+            @Html.Partial("_PartialCarrito", ViewBag.carrito as List<Item>)
         </div>
     </div>
-</div>
-
-
-<br />
-<div>
-    @Html.Partial("_PartialCarrito", ViewBag.carrito as List<Item>)
 </div>
 
 <div class="container">
@@ -53,7 +69,7 @@
         @Html.ActionLink("Generar Pedido", "Pedido", null, new { @class = "primary-btn order-submit" }) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         @Html.ActionLink("Retornar", "Tienda", null, new { @class = "primary-btn order-submit" })
     </div>
-            </div>
+ </div>
 <br />
 <br />
 
