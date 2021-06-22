@@ -121,16 +121,26 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EcommerceController.cs" />
+    <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cargo.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Distrito.cs" />
+    <Compile Include="Models\Empleado.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Producto.cs" />
+    <Compile Include="Models\Proveedor.cs" />
+    <Compile Include="Models\TipoUsuario.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +227,14 @@
     <Content Include="Views\Ecommerce\Inicio.cshtml" />
     <Content Include="Views\Ecommerce\Mensajes.cshtml" />
     <Content Include="Views\Ecommerce\Tienda.cshtml" />
+    <Content Include="Views\Empleado\CrudEmpleado.cshtml" />
+    <Content Include="Views\Marca\CrudMarca.cshtml" />
+    <Content Include="Views\Proveedor\CrudProveedor.cshtml" />
+    <Content Include="Views\Usuario\CrudUsuario.cshtml" />
+    <Content Include="Views\Shared\_PartialEmpleado.cshtml" />
+    <Content Include="Views\Shared\_PartialMarca.cshtml" />
+    <Content Include="Views\Shared\_PartialProveedor.cshtml" />
+    <Content Include="Views\Shared\_PartialUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.Usuario>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idusuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nomusuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contraseña)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.idusuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nomusuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contraseña)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipo)
+        </td>
+        <td>
+            @Html.ActionLink("Selecciona", "Select",
+            new { id = item.idusuario }, new { @class = "btn btn-default" })
+        </td>
+    </tr>
+}
+
+</table>

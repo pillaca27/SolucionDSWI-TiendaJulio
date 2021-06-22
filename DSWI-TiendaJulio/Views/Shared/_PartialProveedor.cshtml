@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.Proveedor>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RUC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE_CONTACTO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TELEFONO_CONTACTO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DIRECCION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COD_DIS)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.RUC, "Select", new { id = item.RUC })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRE_CONTACTO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TELEFONO_CONTACTO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DIRECCION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COD_DIS)
+        </td>
+        <td>
+            @Html.ActionLink("Selecciona", "Select",
+            new { id = item.RUC }, new { @class = "btn btn-default" })
+        </td>
+    </tr>
+}
+
+</table>

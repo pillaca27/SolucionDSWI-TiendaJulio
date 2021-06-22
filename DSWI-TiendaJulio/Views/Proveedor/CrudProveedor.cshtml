@@ -1,0 +1,118 @@
+﻿@model DSWI_TiendaJulio.Models.Proveedor
+@using DSWI_TiendaJulio.Models
+
+@{
+    ViewBag.Title = "CrudProveedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    h2 {
+        text-align: center;
+        width: 100%;
+        float: left;
+    }
+
+    .div-form {
+        width: 80%;
+        height: auto;
+        float: left;
+    }
+
+    .div-proceso {
+        width: 20%;
+        height: auto;
+        float: left;
+    }
+
+    .div-marco {
+        width: 100%;
+        height: auto;
+        float: left;
+    }
+</style>
+
+<h2>Mantenimiento de Proveedores</h2>
+<div class="div-marco">
+
+    @using (Html.BeginForm())
+    {
+        <div class="div-form">
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RUC, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.RUC, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RUC, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NOMBRE, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NOMBRE, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NOMBRE_CONTACTO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NOMBRE_CONTACTO, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NOMBRE_CONTACTO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TELEFONO_CONTACTO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TELEFONO_CONTACTO, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TELEFONO_CONTACTO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DIRECCION, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DIRECCION, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DIRECCION, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.COD_DIS, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("COD_DIS", (SelectList)ViewBag.distritos)
+                    </div>
+                </div>
+
+                <div style="color: red; font-size:21px">
+                    @ViewBag.mensaje
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Limpiar", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                        <input type="submit" value="Grabar" class="btn btn-primary" />
+                        @Html.ActionLink("Eliminar", "Elimina", new { id = Model.RUC }, new { @class = "btn btn-primary", onclick = "return confirm('¿Esta seguro de que desea eliminar?');" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+<div class="div-marco">
+    @Html.Partial("_PartialProveedor", (IEnumerable<Proveedor>)ViewBag.proveedores)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
