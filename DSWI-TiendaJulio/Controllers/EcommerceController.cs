@@ -87,6 +87,7 @@ namespace DSWI_TiendaJulio.Controllers
                 return productos().Where(p => p.COD_PRO == id).FirstOrDefault();
 
         }
+
         public ActionResult Tienda(string nombre = null)
         {
             //primero evaluo si existe el Session["carrito"]
@@ -104,9 +105,6 @@ namespace DSWI_TiendaJulio.Controllers
             return View(filtro(nombre));
         }
 
-
-
-
         public ActionResult Agregar(string id = null)
         {
             if (id == null) return RedirectToAction("Tienda");
@@ -117,8 +115,8 @@ namespace DSWI_TiendaJulio.Controllers
             //si id no es null, envio los datos del producto
             return View(Buscar(id));
         }
-        [HttpPost]
-        public ActionResult Agregar(string cod, Int16 stock, int cantidad)
+
+        [HttpPost] public ActionResult Agregar(string cod, Int16 stock, int cantidad)
         {
             if (cantidad > stock)
             {
@@ -144,6 +142,7 @@ namespace DSWI_TiendaJulio.Controllers
             ViewBag.mensaje = "Producto Agregado";
             return View(reg);
         }
+
         public ActionResult Canasta()
         {
             //asignar a ViewBag.usuario en nombre del cliente InicioSesion()
@@ -152,6 +151,7 @@ namespace DSWI_TiendaJulio.Controllers
             //visualizar el contenido del Session["carrito"], productos seleccionado
             return View((List<Item>)Session["carrito"]);
         }
+
         public ActionResult Delete(string id)
         {
             //eliminar el Item del Session["carrito"]
@@ -162,13 +162,15 @@ namespace DSWI_TiendaJulio.Controllers
 
             return RedirectToAction("Canasta");
         }
-        string InicioSesion()
+
+        public string InicioSesion()
         {
             if (Session["login"] == null)
                 return null;
             else
                 return (Session["login"] as Cliente).nombre;
         }
+
         Cliente Buscar(string login, string clave)
         {
             Cliente reg = null; //inicializar
@@ -194,12 +196,13 @@ namespace DSWI_TiendaJulio.Controllers
             return reg;
 
         }
+
         public ActionResult Inicio()
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult Inicio(string login, string clave)
+
+        [HttpPost] public ActionResult Inicio(string login, string clave)
         {
             //ejecutar el Buscar y lo almaceno en Session["login"]
             Session["login"] = Buscar(login, clave);
@@ -217,16 +220,18 @@ namespace DSWI_TiendaJulio.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("CrudProducto", "Producto");
+                    return RedirectToAction("CrudProducto", "Ecommerce");
                 }
             }
         }
+
         public ActionResult Cerrar()
         {
             //cerrar la sesión del usuario
             Session["login"] = null;
             return RedirectToAction("Tienda");
         }
+
         public ActionResult Comprar()
         {
             //Verifico si la sessión es null
@@ -301,6 +306,7 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("Mensajes", new { m = mensaje });
 
         }
+
         public ActionResult Mensajes(String m)
         {
             //envio el de m
@@ -308,6 +314,732 @@ namespace DSWI_TiendaJulio.Controllers
             //finalizo la sesión
             Session.Abandon();
             return View();
+        }
+
+        //vista cruds
+
+        //Empleado
+
+        IEnumerable<Distrito> distritos()
+        {
+            List<Distrito> temporal = new List<Distrito>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("Select*from DISTRITO", cn);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Distrito reg = new Distrito()
+                    {
+                        COD_DIS = dr.GetString(0),
+                        NOMBRE = dr.GetString(1)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close();
+                cn.Close();
+            }
+            return temporal;
+        }
+        IEnumerable<Cargo> cargos()
+        {
+            List<Cargo> temporal = new List<Cargo>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("Select*from CARGO", cn);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Cargo reg = new Cargo()
+                    {
+                        COD_CARGO = dr.GetString(0),
+                        NOMBRE = dr.GetString(1)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close();
+                cn.Close();
+            }
+            return temporal;
+        }
+        IEnumerable<Usuario> usuarios()
+        {
+            List<Usuario> temporal = new List<Usuario>();
+            //if (nombre == null) return temporal;
+
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("sp_lista_usuarios", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Usuario reg = new Usuario()
+                    {
+                        idusuario = dr.GetString(0),
+                        nomusuario = dr.GetString(1),
+                        contraseña = dr.GetString(2),
+                        tipo = dr.GetString(3)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close(); cn.Close();
+            }
+            return temporal;
+        }
+
+        IEnumerable<Empleado> empleados()
+        {
+            List<Empleado> temporal = new List<Empleado>();
+
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("sp_lista_empleados", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Empleado reg = new Empleado()
+                    {
+                        COD_EMP = dr.GetString(0),
+                        NOMBRE = dr.GetString(1),
+                        DNI = dr.GetString(2),
+                        TELEFONO = dr.GetString(3),
+                        DIRECCION = dr.GetString(4),
+                        COD_DIS = dr.GetString(5),
+                        COD_CARGO = dr.GetString(6),
+                        idusuario = dr.GetString(7),
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close(); cn.Close();
+            }
+            return temporal;
+        }
+        Empleado buscarEmpleado(string id)
+        {
+            return empleados().Where(c => c.COD_EMP == id).FirstOrDefault();
+        }
+        Boolean verificaEmpleado(string id)
+        {
+            //existe: true, no existe false
+            return (buscarEmpleado(id) != null ? true : false);
+        }
+        public ActionResult CrudEmpleado(string id = "")
+        {
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
+            ViewBag.cargos = new SelectList(cargos(), "COD_CARGO", "NOMBRE");
+            ViewBag.usuarios = new SelectList(usuarios(), "idusuario", "nomusuario");
+
+
+            //envio los proveedores en ViewBag
+            ViewBag.empleados = empleados();
+            ViewBag.usuario = InicioSesion();
+
+            //preguntamos por id, si esta vacio es un nuevo proveedor, sino ejecutamos buscar
+            Empleado reg = (id == "" ? new Empleado() : buscarEmpleado(id));
+
+            //envio reg el Cliente a la Vista
+            return View(reg);
+        }
+
+        [HttpPost]
+        public ActionResult CrudEmpleado(Empleado reg)
+        {
+            //este proceso permite Insert(si el idcliente no existe o actualiza si idcliente existe)
+            string procedure = "";
+            if (verificaEmpleado(reg.COD_EMP) == false)
+            {
+                procedure = "sp_inserta_empleado";
+                ViewBag.mensaje = "Registro Agregado";
+            }
+            else
+            {
+                procedure = "sp_actualiza_empleado";
+                ViewBag.mensaje = "Registro Actualizado";
+            }
+
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procedure, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", reg.COD_EMP);
+                cmd.Parameters.AddWithValue("@nombre", reg.NOMBRE);
+                cmd.Parameters.AddWithValue("@dni", reg.DNI);
+                cmd.Parameters.AddWithValue("@telefono", reg.TELEFONO);
+                cmd.Parameters.AddWithValue("@direccion", reg.DIRECCION);
+                cmd.Parameters.AddWithValue("@distrito", reg.COD_DIS);
+                cmd.Parameters.AddWithValue("@cargo", reg.COD_CARGO);
+                cmd.Parameters.AddWithValue("@usuario", reg.idusuario);
+
+
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
+            finally { cn.Close(); }
+
+            //envias los distritos
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
+            ViewBag.cargos = new SelectList(cargos(), "COD_CARGO", "NOMBRE", reg.COD_CARGO);
+            ViewBag.cargos = new SelectList(usuarios(), "idusuario", "nomusuario", reg.idusuario);
+
+            //envias los clientes
+            ViewBag.empleado = empleados();
+            ViewBag.usuario = InicioSesion();
+            return View(reg);
+        }
+
+        public ActionResult SelectEmpleado(string id)
+        {
+            //reenvias el id al Index para que imprima los datos
+            return RedirectToAction("CrudEmpleado", new { id = id });
+        }
+
+        public ActionResult EliminaEmpleado(string id = "")
+        {
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_elimina_empleado", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                ViewBag.mensaje = "Registro Eliminado";
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return RedirectToAction("CrudEmpleado");
+        }
+
+        //MARCA
+
+        IEnumerable<Marca> marcas()
+        {
+            List<Marca> temporal = new List<Marca>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("Select*from MARCA", cn);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Marca reg = new Marca()
+                    {
+                        COD_MAR = dr.GetString(0),
+                        NOM_MAR = dr.GetString(1)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close();
+                cn.Close();
+            }
+            return temporal;
+        }
+
+        Marca buscarMarca(string id)
+        {
+            return marcas().Where(c => c.COD_MAR == id).FirstOrDefault();
+        }
+
+        Boolean verificaMarca(string id)
+        {
+            //existe: true, no existe false
+            return (buscarMarca(id) != null ? true : false);
+        }
+
+        public ActionResult CrudMarca(string id = "")
+        {
+            ViewBag.marcas = marcas();
+            ViewBag.usuario = InicioSesion();
+            Marca reg = (id == "" ? new Marca() : buscarMarca(id));
+
+            return View(reg);
+        }
+
+        [HttpPost]
+        public ActionResult CrudMarca(Marca reg)
+        {
+            //este proceso permite Insert(si el idcliente no existe o actualiza si idcliente existe)
+            string procedure = "";
+            if (verificaMarca(reg.COD_MAR) == false)
+            {
+                procedure = "sp_inserta_marca";
+                ViewBag.mensaje = "Registro Agregado";
+            }
+            else
+            {
+                procedure = "sp_actualiza_marca";
+                ViewBag.mensaje = "Registro Actualizado";
+            }
+
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procedure, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", reg.COD_MAR);
+                cmd.Parameters.AddWithValue("@nombre", reg.NOM_MAR);
+
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
+            finally { cn.Close(); }
+
+            //envias los clientes
+            ViewBag.marca = marcas();
+            ViewBag.usuario = InicioSesion();
+            return View(reg);
+        }
+
+        public ActionResult SelectMarca(string id)
+        {
+            //reenvias el id al Index para que imprima los datos
+            return RedirectToAction("CrudMarca", new { id = id });
+        }
+
+        public ActionResult EliminaMarca(string id = "")
+        {
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_elimina_marca", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                ViewBag.mensaje = "Registro Eliminado";
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return RedirectToAction("CrudMarca");
+        }
+
+        //USUARIO
+
+        IEnumerable<TipoUsuario> tipoUsuarios()
+        {
+            List<TipoUsuario> temporal = new List<TipoUsuario>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("Select*from tipo_usuario", cn);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    TipoUsuario reg = new TipoUsuario()
+                    {
+                        id_tipo = dr.GetString(0),
+                        nombre = dr.GetString(1)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close();
+                cn.Close();
+            }
+            return temporal;
+        }
+
+        Usuario buscarUsuario(string id)
+        {
+            return usuarios().Where(c => c.idusuario == id).FirstOrDefault();
+        }
+
+        Boolean verificaUsuario(string id)
+        {
+            //existe: true, no existe false
+            return (buscarUsuario(id) != null ? true : false);
+        }
+
+        public ActionResult CrudUsuario(string id = "")
+        {
+            ViewBag.tipoUsuarios = new SelectList(tipoUsuarios(), "id_tipo", "nombre");
+
+            //envio los usuarios en ViewBag
+            ViewBag.listausuarios = usuarios();
+            ViewBag.usuario = InicioSesion();
+
+            //preguntamos por id, si esta vacio es un nuevo usuario, sino ejecutamos buscar
+            Usuario reg = (id == "" ? new Usuario() : buscarUsuario(id));
+
+            return View(reg);
+        }
+
+        [HttpPost]
+        public ActionResult CrudUsuario(Usuario reg)
+        {
+            //este proceso permite Insert(si el idcliente no existe o actualiza si idcliente existe)
+            string procedure = "";
+            if (verificaUsuario(reg.idusuario) == false)
+            {
+                procedure = "sp_inserta_usuario";
+                ViewBag.mensaje = "Registro Agregado";
+            }
+            else
+            {
+                procedure = "sp_actualiza_usuario";
+                ViewBag.mensaje = "Registro Actualizado";
+            }
+
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procedure, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", reg.idusuario);
+                cmd.Parameters.AddWithValue("@nombre", reg.nomusuario);
+                cmd.Parameters.AddWithValue("@contraseña", reg.contraseña);
+                cmd.Parameters.AddWithValue("@tipo", reg.tipo);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
+            finally { cn.Close(); }
+
+            //envias los distritos
+            ViewBag.tipoUsuarios = new SelectList(tipoUsuarios(), "id_tipo", "nombre", reg.tipo);
+            //envias los clientes
+            ViewBag.listausuario = usuarios();
+            ViewBag.usuario = InicioSesion();
+
+            return View(reg);
+        }
+
+        public ActionResult SelectUsuario(string id)
+        {
+            //reenvias el id al Index para que imprima los datos
+            return RedirectToAction("CrudUsuario", new { id = id });
+        }
+
+        public ActionResult EliminaUsuario(string id = "")
+        {
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_elimina_usuario", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                ViewBag.mensaje = "Registro Eliminado";
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return RedirectToAction("CrudUsuario");
+        }
+
+        //PROVEEDOR
+
+        IEnumerable<Proveedor> proveedores()
+        {
+            List<Proveedor> temporal = new List<Proveedor>();
+            //if (nombre == null) return temporal;
+
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("sp_lista_proveedores", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Proveedor reg = new Proveedor()
+                    {
+                        RUC = dr.GetString(0),
+                        NOMBRE = dr.GetString(1),
+                        NOMBRE_CONTACTO = dr.GetString(2),
+                        TELEFONO_CONTACTO = dr.GetString(3),
+                        DIRECCION = dr.GetString(4),
+                        COD_DIS = dr.GetString(5)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close(); cn.Close();
+            }
+            return temporal;
+        }
+
+        Proveedor buscarProveedor(string id)
+        {
+            return proveedores().Where(c => c.RUC == id).FirstOrDefault();
+        }
+
+        Boolean verificaProveedor(string id)
+        {
+            //existe: true, no existe false
+            return (buscarProveedor(id) != null ? true : false);
+        }
+
+        public ActionResult CrudProveedor(string id = "")
+        {
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
+
+            //envio los proveedores en ViewBag
+            ViewBag.proveedores = proveedores();
+            ViewBag.usuario = InicioSesion();
+
+            //preguntamos por id, si esta vacio es un nuevo proveedor, sino ejecutamos buscar
+            Proveedor reg = (id == "" ? new Proveedor() : buscarProveedor(id));
+
+            //envio reg el Cliente a la Vista
+            return View(reg);
+        }
+
+        [HttpPost]
+        public ActionResult CrudProveedor(Proveedor reg)
+        {
+            //este proceso permite Insert(si el idcliente no existe o actualiza si idcliente existe)
+            string procedure = "";
+            if (verificaProveedor(reg.RUC) == false)
+            {
+                procedure = "sp_inserta_proveedor";
+                ViewBag.mensaje = "Registro Agregado";
+            }
+            else
+            {
+                procedure = "sp_actualiza_proveedor";
+                ViewBag.mensaje = "Registro Actualizado";
+            }
+
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procedure, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ruc", reg.RUC);
+                cmd.Parameters.AddWithValue("@nombre", reg.NOMBRE);
+                cmd.Parameters.AddWithValue("@contacto", reg.NOMBRE_CONTACTO);
+                cmd.Parameters.AddWithValue("@telefono", reg.TELEFONO_CONTACTO);
+                cmd.Parameters.AddWithValue("@direccion", reg.DIRECCION);
+                cmd.Parameters.AddWithValue("@distrito", reg.COD_DIS);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
+            finally { cn.Close(); }
+
+            //envias los distritos
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
+            //envias los clientes
+            ViewBag.proveedores = proveedores();
+            ViewBag.usuario = InicioSesion();
+            return View(reg);
+        }
+
+        public ActionResult SelectProveedor(string id)
+        {
+            //reenvias el id al Index para que imprima los datos
+            return RedirectToAction("CrudProveedor", new { id = id });
+        }
+
+        public ActionResult EliminaProveedor(string id = "")
+        {
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_elimina_proveedor", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ruc", id);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                ViewBag.mensaje = "Registro Eliminado";
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return RedirectToAction("CrudProveedor");
+        }
+
+        //PRODUCTO
+
+        IEnumerable<Categoria> categorias()
+        {
+            List<Categoria> temporal = new List<Categoria>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("Select*from CATEGORIA", cn);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Categoria reg = new Categoria()
+                    {
+                        COD_CAT = dr.GetString(0),
+                        NOM_CAT = dr.GetString(1)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close();
+                cn.Close();
+            }
+            return temporal;
+        }
+
+        IEnumerable<Producto> listadoProductos()
+        {
+            List<Producto> temporal = new List<Producto>();
+            //if (nombre == null) return temporal;
+
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                //SqlCommand cmd = new SqlCommand(
+                //"Select P.COD_PRO, P.NOM_PRO, P.PRECIO_VENTA, P.stock, M.NOM_MAR, C.NOM_CAT " +
+                //"from PRODUCTO P join MARCA M on P.COD_MAR = M.COD_MAR " +
+                //"join CATEGORIA C on P.COD_CAT = C.COD_CAT" +
+                //"where P.NOM_PRO like @nombre+'%'", cn);
+                //cmd.Parameters.AddWithValue("@nombre", nombre);
+                SqlCommand cmd = new SqlCommand("sp_lista_productos", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Producto reg = new Producto()
+                    {
+                        COD_PRO = dr.GetString(0),
+                        NOM_PRO = dr.GetString(1),
+                        PRECIO_VENTA = dr.GetDecimal(2),
+                        STOCK = dr.GetInt32(3),
+                        COD_MAR = dr.GetString(4),
+                        COD_CAT = dr.GetString(5)
+                    };
+                    temporal.Add(reg);
+                }
+                dr.Close(); cn.Close();
+            }
+            return temporal;
+        }
+
+        Producto buscarProducto(string COD_PRO)
+        {
+            return listadoProductos().Where(c => c.COD_PRO == COD_PRO).FirstOrDefault();
+        }
+
+        Boolean verificaProducto(string id)
+        {
+            //existe: true, no existe false
+            return (buscarProducto(id) != null ? true : false);
+        }
+
+        public ActionResult CrudProducto(string id = "")
+        {
+
+            ViewBag.marcas = new SelectList(marcas(), "COD_MAR", "NOM_MAR");
+
+            ViewBag.categorias = new SelectList(categorias(), "COD_CAT", "NOM_CAT");
+
+            //envio los clientes en ViewBag
+            ViewBag.productos = listadoProductos();
+            ViewBag.usuario = InicioSesion();
+
+            //preguntamos por id, si esta vacio es un nuevo cliente, sino ejecutamos buscar
+            Producto reg = (id == "" ? new Producto() : buscarProducto(id));
+
+            //envio reg el Cliente a la Vista
+            return View(reg);
+        }
+
+        [HttpPost]
+        public ActionResult CrudProducto(Producto reg)
+        {
+            //este proceso permite Insert(si el idcliente no existe o actualiza si idcliente existe)
+            string procedure = "";
+            if (verificaProducto(reg.COD_PRO) == false)
+            {
+                procedure = "sp_inserta_producto";
+                ViewBag.mensaje = "Registro Agregado";
+            }
+            else
+            {
+                procedure = "sp_actualiza_producto";
+                ViewBag.mensaje = "Registro Actualizado";
+            }
+
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand(procedure, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", reg.COD_PRO);
+                cmd.Parameters.AddWithValue("@nombre", reg.NOM_PRO);
+                cmd.Parameters.AddWithValue("@precio", reg.PRECIO_VENTA);
+                cmd.Parameters.AddWithValue("@stock", reg.STOCK);
+                cmd.Parameters.AddWithValue("@idmar", reg.COD_MAR);
+                cmd.Parameters.AddWithValue("@idcat", reg.COD_CAT);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
+            finally { cn.Close(); }
+
+            //envias los marcas
+            ViewBag.marcas = new SelectList(marcas(), "COD_MAR", "NOM_MAR", reg.COD_MAR);
+            //envias los categorias
+            ViewBag.categorias = new SelectList(categorias(), "COD_CAT", "NOM_CAT", reg.COD_CAT);
+            //envias los clientes
+            ViewBag.productos = listadoProductos();
+            ViewBag.usuario = InicioSesion();
+
+            return View(reg);
+        }
+
+        public ActionResult SelectProducto(string id)
+        {
+            //reenvias el id al Index para que imprima los datos
+            return RedirectToAction("CrudProducto", new { id = id });
+        }
+
+        public ActionResult EliminaProducto(string id = "")
+        {
+            SqlConnection cn = new SqlConnection(cadena);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("sp_elimina_producto", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                ViewBag.mensaje = "Registro Eliminado";
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.mensaje = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return RedirectToAction("CrudProducto");
         }
     }
 }

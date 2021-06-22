@@ -27,7 +27,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.COD_PRO, "Select", new { id = item.COD_PRO })
+                @Html.ActionLink(item.COD_PRO, "SelectProducto", new { id = item.COD_PRO })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NOM_PRO)
@@ -45,8 +45,7 @@
                 @Html.DisplayFor(modelItem => item.COD_CAT)
             </td>
             <td>
-                @Html.ActionLink("Selecciona", "Select",
-                new { id = item.COD_PRO }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Selecciona", "SelectProducto", new { id = item.COD_PRO }, new { @class = "btn btn-default" })
             </td>
         </tr>
     }

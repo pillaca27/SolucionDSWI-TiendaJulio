@@ -15,13 +15,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink(item.COD_MAR, "Select", new { id = item.COD_MAR })
+            @Html.ActionLink(item.COD_MAR, "SelectMarca", new { id = item.COD_MAR })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NOM_MAR)
         </td>
         <td>
-            @Html.ActionLink("Selecciona", "Select",
+            @Html.ActionLink("Selecciona", "SelectMarca",
             new { id = item.COD_MAR }, new { @class = "btn btn-default" })
         </td>
     </tr>

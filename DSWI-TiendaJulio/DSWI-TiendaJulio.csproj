@@ -121,12 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EcommerceController.cs" />
-    <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MarcaController.cs" />
-    <Compile Include="Controllers\ProductoController.cs" />
-    <Compile Include="Controllers\ProveedorController.cs" />
-    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -218,7 +213,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_PartialProducto.cshtml" />
-    <Content Include="Views\Producto\CrudProducto.cshtml" />
+    <Content Include="Views\Ecommerce\CrudProducto.cshtml" />
     <Content Include="Views\Ecommerce\_PartialCarrito.cshtml" />
     <Content Include="Views\Shared\_LayoutCarrito.cshtml" />
     <Content Include="Views\Ecommerce\Agregar.cshtml" />
@@ -227,10 +222,10 @@
     <Content Include="Views\Ecommerce\Inicio.cshtml" />
     <Content Include="Views\Ecommerce\Mensajes.cshtml" />
     <Content Include="Views\Ecommerce\Tienda.cshtml" />
-    <Content Include="Views\Empleado\CrudEmpleado.cshtml" />
-    <Content Include="Views\Marca\CrudMarca.cshtml" />
-    <Content Include="Views\Proveedor\CrudProveedor.cshtml" />
-    <Content Include="Views\Usuario\CrudUsuario.cshtml" />
+    <Content Include="Views\Ecommerce\CrudEmpleado.cshtml" />
+    <Content Include="Views\Ecommerce\CrudMarca.cshtml" />
+    <Content Include="Views\Ecommerce\CrudProveedor.cshtml" />
+    <Content Include="Views\Ecommerce\CrudUsuario.cshtml" />
     <Content Include="Views\Shared\_PartialEmpleado.cshtml" />
     <Content Include="Views\Shared\_PartialMarca.cshtml" />
     <Content Include="Views\Shared\_PartialProveedor.cshtml" />

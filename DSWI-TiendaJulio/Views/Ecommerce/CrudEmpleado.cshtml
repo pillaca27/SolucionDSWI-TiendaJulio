@@ -111,9 +111,9 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        @Html.ActionLink("Limpiar", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Limpiar", "CrudEmpleado", new { id = "" }, new { @class = "btn btn-primary" })
                         <input type="submit" value="Grabar" class="btn btn-primary" />
-                        @Html.ActionLink("Eliminar", "Elimina", new { id = Model.COD_EMP }, new { @class = "btn btn-primary", onclick = "return confirm('¿Esta seguro de que desea eliminar?');" })
+                        @Html.ActionLink("Eliminar", "EliminaEmpleado", new { id = Model.COD_EMP }, new { @class = "btn btn-primary", onclick = "return confirm('¿Esta seguro de que desea eliminar?');" })
                     </div>
                 </div>
 

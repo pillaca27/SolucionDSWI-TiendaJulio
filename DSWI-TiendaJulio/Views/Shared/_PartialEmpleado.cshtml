@@ -34,7 +34,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.COD_EMP, "Select", new { id = item.COD_EMP })
+                @Html.ActionLink(item.COD_EMP, "SelectEmpleado", new { id = item.COD_EMP })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NOMBRE)
@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.idusuario)
             </td>
             <td>
-                @Html.ActionLink("Selecciona", "Select",
+                @Html.ActionLink("Selecciona", "SelectEmpleado",
                     new { id = item.COD_EMP }, new { @class = "btn btn-default" })
             </td>
         </tr>
