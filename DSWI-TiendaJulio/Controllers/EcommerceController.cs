@@ -112,6 +112,10 @@ namespace DSWI_TiendaJulio.Controllers
             //asignar a ViewBag.usuario en nombre del cliente InicioSesion()
             ViewBag.usuario = InicioSesion();
 
+            List<Item> temporal = (List<Item>)Session["carrito"];
+
+            ViewBag.totalcarrito = temporal.Count;
+
             //si id no es null, envio los datos del producto
             return View(Buscar(id));
         }
@@ -140,6 +144,9 @@ namespace DSWI_TiendaJulio.Controllers
             ViewBag.usuario = InicioSesion();
 
             ViewBag.mensaje = "Producto Agregado";
+
+            ViewBag.totalcarrito = temporal.Count;
+
             return View(reg);
         }
 
@@ -147,6 +154,10 @@ namespace DSWI_TiendaJulio.Controllers
         {
             //asignar a ViewBag.usuario en nombre del cliente InicioSesion()
             ViewBag.usuario = InicioSesion();
+
+            List<Item> temporal = (List<Item>)Session["carrito"];
+
+            ViewBag.totalcarrito = temporal.Count;
 
             //visualizar el contenido del Session["carrito"], productos seleccionado
             return View((List<Item>)Session["carrito"]);
@@ -234,6 +245,9 @@ namespace DSWI_TiendaJulio.Controllers
 
         public ActionResult Comprar()
         {
+            List<Item> temporal = (List<Item>)Session["carrito"];
+
+            ViewBag.totalcarrito = temporal.Count;
             //Verifico si la sessión es null
             if (Session["login"] == null)
             {
