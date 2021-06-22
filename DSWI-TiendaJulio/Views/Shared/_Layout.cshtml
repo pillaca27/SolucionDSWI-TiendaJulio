@@ -19,38 +19,24 @@
             <ul class="menu">
                 <li class="title-menu">ADMINISTRADOR</li>
 
-                <li><a href="@Url.Action("Tienda", "Ecommerce")"><span class="fa fa-home icon-menu"></span>Tienda</a></li>
+                <li><a href="@Url.Action("Tienda", "Ecommerce")"><span class="fa fa-home icon-menu"></span>Ir a la tienda</a></li>
 
                 <li class="item-submenu" menu="1">
-                    <a href="#"><span class="fa fa-shopping-bag icon-menu"></span>@ViewBag.usuario</a>
+                    <a href="#"><span class="fa fa-user icon-menu"></span>@ViewBag.usuario</a>
                     <ul class="submenu">
-                        <li class="title-menu"><span class="fa fa-shopping-bag icon-menu"></span>@ViewBag.usuario</li>
+                        <li class="title-menu"><span class="fa fa-user icon-menu"></span>@ViewBag.usuario</li>
                         <li class="go-back">Atras</li>
 
                         <li><a href="@Url.Action("Cerrar", "Ecommerce")">Cerrar Sesión</a></li>
                     </ul>
                 </li>
 
-
-                <li class="item-submenu" menu="2">
-                    <a href="#"><span class="fa fa-suitcase icon-menu"></span>Mantenimiento</a>
-
-
-
-                    <ul class="submenu">
-                        <li class="title-menu"><span class="fa fa-suitcase icon-menu"></span>Mantenimiento</li>
-                        <li class="go-back">Atras</li>
-
-                        <li><a href="@Url.Action("CrudEmpleado", "Ecommerce")">Empleado</a></li>
-                        <li><a href="@Url.Action("CrudProducto", "Ecommerce")">Producto</a></li>
-                        <li><a href="@Url.Action("CrudProveedor", "Ecommerce")">Proveedor</a></li>
-                        <li><a href="@Url.Action("CrudCliente", "Ecommerce")">Cliente</a></li>
-                        <li><a href="@Url.Action("CrudMarca", "Ecommerce")">Marca</a></li>
-                        <li><a href="@Url.Action("CrudUsuario", "Ecommerce")">Usuario</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="#"><span class="fa fa-envelope icon-menu"></span>Detalle de pedidos</a></li>
+                <li><a href="@Url.Action("CrudEmpleado", "Ecommerce")"><span class="fa fa-shopping-bag icon-menu"></span>Empleado</a></li>
+                <li><a href="@Url.Action("CrudProducto", "Ecommerce")"><span class="fa fa-shopping-bag icon-menu"></span>Producto</a></li>
+                <li><a href="@Url.Action("CrudProveedor", "Ecommerce")"><span class="fa fa-shopping-bag icon-menu"></span>Proveedor</a></li>
+                <li><a href="@Url.Action("CrudCliente", "Ecommerce")"><span class="fa fa-shopping-bag icon-menu"></span>Cliente</a></li>
+                <li><a href="@Url.Action("CrudMarca", "Ecommerce")"><span class="fa fa-shopping-bag icon-menu"></span>Marca</a></li>
+                <li><a href="@Url.Action("CrudUsuario", "Ecommerce")"><span class="fa fa-shopping-bag icon-menu"></span>Usuario</a></li>
 
             </ul>
         </nav>

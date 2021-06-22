@@ -41,11 +41,9 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>Usuario</h4>
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.idusuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("CODIGO", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.idusuario, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.idusuario, "", new { @class = "text-danger" })
@@ -53,7 +51,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.nomusuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("USUARIO", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.nomusuario, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.nomusuario, "", new { @class = "text-danger" })
@@ -61,7 +59,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.contraseña, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("CONTRASEÑA", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.contraseña, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.contraseña, "", new { @class = "text-danger" })
@@ -69,9 +67,9 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("TIPO DE USUARIO", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("id_tipo", (SelectList)ViewBag.tipoUsuarios)
+                        @Html.DropDownList("tipo", (SelectList)ViewBag.tipoUsuarios)
                     </div>
                 </div>
 

@@ -512,7 +512,7 @@ namespace DSWI_TiendaJulio.Controllers
         {
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
             ViewBag.cargos = new SelectList(cargos(), "COD_CARGO", "NOMBRE");
-            ViewBag.usuarios = new SelectList(usuarios(), "idusuario", "nomusuario");
+            ViewBag.listusuarios = new SelectList(usuarios(), "idusuario", "nomusuario");
 
 
             //envio los proveedores en ViewBag
@@ -566,10 +566,10 @@ namespace DSWI_TiendaJulio.Controllers
             //envias los distritos
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
             ViewBag.cargos = new SelectList(cargos(), "COD_CARGO", "NOMBRE", reg.COD_CARGO);
-            ViewBag.cargos = new SelectList(usuarios(), "idusuario", "nomusuario", reg.idusuario);
+            ViewBag.listusuarios = new SelectList(usuarios(), "idusuario", "nomusuario", reg.idusuario);
 
             //envias los clientes
-            ViewBag.empleado = empleados();
+            ViewBag.empleados = empleados();
             ViewBag.usuario = InicioSesion();
             return View(reg);
         }
@@ -679,7 +679,7 @@ namespace DSWI_TiendaJulio.Controllers
             finally { cn.Close(); }
 
             //envias los clientes
-            ViewBag.marca = marcas();
+            ViewBag.marcas = marcas();
             ViewBag.usuario = InicioSesion();
             return View(reg);
         }
@@ -797,7 +797,7 @@ namespace DSWI_TiendaJulio.Controllers
             //envias los distritos
             ViewBag.tipoUsuarios = new SelectList(tipoUsuarios(), "id_tipo", "nombre", reg.tipo);
             //envias los clientes
-            ViewBag.listausuario = usuarios();
+            ViewBag.listausuarios = usuarios();
             ViewBag.usuario = InicioSesion();
 
             return View(reg);
