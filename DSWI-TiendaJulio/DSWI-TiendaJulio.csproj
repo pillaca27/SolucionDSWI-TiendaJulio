@@ -182,6 +182,7 @@
     <Content Include="fonts\slick.eot" />
     <Content Include="fonts\slick.ttf" />
     <Content Include="fonts\slick.woff" />
+    <Content Include="Content\login.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -230,6 +231,7 @@
     <Content Include="Views\Shared\_PartialMarca.cshtml" />
     <Content Include="Views\Shared\_PartialProveedor.cshtml" />
     <Content Include="Views\Shared\_PartialUsuario.cshtml" />
+    <Content Include="Views\Ecommerce\Registrarse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

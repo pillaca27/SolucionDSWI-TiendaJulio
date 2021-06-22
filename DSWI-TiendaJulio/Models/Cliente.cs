@@ -11,7 +11,8 @@ namespace DSWI_TiendaJulio.Models
         public string nombre { get; set; }
         public string telefono { get; set; }
         public string direccion { get; set; }
-        public string distrito { get; set; }
+        public string COD_DIS { get; set; }
+        public string usuario { get; set; }
         public int tipo_usuario { get; set; }
     }
 }

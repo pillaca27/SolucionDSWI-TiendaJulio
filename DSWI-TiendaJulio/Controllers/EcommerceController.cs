@@ -13,6 +13,9 @@ namespace DSWI_TiendaJulio.Controllers
     public class ECommerceController : Controller
     {
         string cadena = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
+        
+        //TIENDA
+        
         IEnumerable<Producto> productos()
         {
             List<Producto> temporal = new List<Producto>();
@@ -28,6 +31,29 @@ namespace DSWI_TiendaJulio.Controllers
                 reg.NOM_PRO = dr.GetString(1);
                 reg.PRECIO_VENTA = dr.GetDecimal(2);
                 reg.STOCK = dr.GetInt32(3);
+                temporal.Add(reg);
+            }
+            dr.Close(); cn.Close();
+            return temporal;
+        }
+
+        IEnumerable<Cliente> clientes()
+        {
+            List<Cliente> temporal = new List<Cliente>();
+            SqlConnection cn = new SqlConnection(cadena);
+            SqlCommand cmd = new SqlCommand(
+            "SELECT * FROM CLIENTE", cn);
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Cliente reg = new Cliente();
+                reg.dni = dr.GetString(0);
+                reg.nombre = dr.GetString(1);
+                reg.telefono = dr.GetString(2);
+                reg.direccion = dr.GetString(3);
+                reg.COD_DIS = dr.GetString(4);
+                reg.usuario = dr.GetString(5);
                 temporal.Add(reg);
             }
             dr.Close(); cn.Close();
@@ -236,6 +262,45 @@ namespace DSWI_TiendaJulio.Controllers
             }
         }
 
+        public ActionResult Registrarse()
+        {
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
+            return View(new Cliente());
+        }
+
+        [HttpPost]public ActionResult Registrarse(Cliente reg, string nomusuario, string password)
+        {
+            SqlConnection cn = new SqlConnection(cadena);
+            cn.Open();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SP_REGISTRA_CLIENTE", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DNI", reg.dni);
+                cmd.Parameters.AddWithValue("@NOMBRE", reg.nombre);
+                cmd.Parameters.AddWithValue("@TELEFONO", reg.telefono);
+                cmd.Parameters.AddWithValue("@DIRECCION", reg.direccion);
+                cmd.Parameters.AddWithValue("@DISTRITO", reg.COD_DIS);
+                cmd.Parameters.AddWithValue("@NOMUSUARIO", nomusuario);
+                cmd.Parameters.AddWithValue("@PASS", password);
+               int n = cmd.ExecuteNonQuery();
+               ViewBag.mensaje = n.ToString() + "Registro Agregado";
+            }
+            catch (SqlException ex) 
+            { 
+                ViewBag.mensaje = ex.Message;
+            }
+            finally 
+            { 
+                cn.Close(); 
+            }
+
+            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
+            ViewBag.clientes = clientes();
+
+            return RedirectToAction("Inicio", reg);
+        }
+
         public ActionResult Cerrar()
         {
             //cerrar la sesión del usuario
@@ -332,7 +397,7 @@ namespace DSWI_TiendaJulio.Controllers
 
         //vista cruds
 
-        //Empleado
+        //EMPLEADO
 
         IEnumerable<Distrito> distritos()
         {
