@@ -1155,8 +1155,7 @@ namespace DSWI_TiendaJulio.Controllers
             return View(reg);
         }
 
-        [HttpPost]
-        public ActionResult CrudCliente(Cliente reg)
+        [HttpPost]public ActionResult CrudCliente(Cliente reg)
         {
             string procedure = "";
             if (verificaCliente(reg.dni) == false)
@@ -1198,7 +1197,6 @@ namespace DSWI_TiendaJulio.Controllers
             ViewBag.clientes = clientes();
             return View(reg);
         }
-
 
         public ActionResult EliminarCliente(string id)
         {
