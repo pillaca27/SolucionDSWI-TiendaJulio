@@ -363,7 +363,8 @@ namespace DSWI_TiendaJulio.Controllers
 
                 foreach (Item reg in Session["carrito"] as List<Item>)
                 {
-                    cmd = new SqlCommand("INSERT DETALLE_VENTA values (@idpedido, @idproducto, @cantidad, @subtotal)", cn, tr);
+                    cmd = new SqlCommand("INSERT_DETALLE_VENTA", cn, tr);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@idpedido", nropedido);
                     cmd.Parameters.AddWithValue("@idproducto", reg.codigo);
                     cmd.Parameters.AddWithValue("@cantidad", reg.cantidad);

@@ -4,10 +4,9 @@
     Layout = "~/Views/Shared/_LayoutCarrito.cshtml";
 }
 
-<h1 style="text-align:center">Mensajes</h1>
 <h2 style="text-align:center">@ViewBag.mensaje</h2>
 
 <div>
-    @Html.ActionLink("Retorna", "Tienda");
+    @Html.ActionLink("Retorna", "Tienda", null, new { @class = "primary-btn order-submit")
 </div>
 
