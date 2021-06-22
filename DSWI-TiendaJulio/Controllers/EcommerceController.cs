@@ -1161,7 +1161,7 @@ namespace DSWI_TiendaJulio.Controllers
             string procedure = "";
             if (verificaCliente(reg.dni) == false)
             {
-                procedure = "sp_agrega_cliente";
+                procedure = "sp_inserta_cliente";
                 ViewBag.mensaje = "Registro Agregado";
             }
             else
