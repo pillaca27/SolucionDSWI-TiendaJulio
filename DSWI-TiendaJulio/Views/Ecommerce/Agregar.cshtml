@@ -29,10 +29,11 @@
                     <h2 class="product-name">@Html.DisplayFor(model => model.NOM_PRO)</h2>
 
                     <div>
-                        <h3 class="product-price">@Html.DisplayFor(model => model.PRECIO_VENTA)</h3>
-                        <span class="product-available">@Html.DisplayFor(model => model.STOCK) In Stock</span>
+                        <h3 class="product-price">S/@Html.DisplayFor(model => model.PRECIO_VENTA) soles</h3>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <div>
+                        <h3 class="product-price">@Html.DisplayFor(model => model.STOCK) en stock</h3>
+                    </div>
 
                     @using (Html.BeginForm("Agregar", "ECommerce", FormMethod.Post))
                     {
