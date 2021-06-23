@@ -26,51 +26,52 @@
                             <form>
                                 <div class="form-group">
                                     <label for="DNI">DNI</label>
-                                    @Html.EditorFor(model => model.dni, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.dni, new { htmlAttributes = new { @id = "dni", @class = "form-control" } })
                                 </div>
 
                                 <div class="form-group">
                                     <label for="Nombre">Nombre</label>
 
-                                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @id = "nombre", @class = "form-control" } })
 
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="Teléfono" >Teléfono</label>
+                                    <label for="Teléfono">Teléfono</label>
 
-                                    @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @id = "telefono", @class = "form-control" } })
 
                                 </div>
 
                                 <div class="form-group">
                                     <label for="Dirección">Dirección</label>
 
-                                    @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @id = "direccion", @class = "form-control" } })
 
                                 </div>
 
                                 <div class="form-group">
                                     <label for="Distrito">Distrito</label>
 
-                                    @Html.DropDownList("COD_DIS", (SelectList)ViewBag.distritos, new { @class = "form-control" })
+                                    @Html.DropDownList("COD_DIS", (SelectList)ViewBag.distritos, new { @id = "distrito", @class = "form-control" })
 
                                 </div>
 
                                 <div class="form-group">
                                     <label for="Usuario">Usuario</label>
 
-                                    @Html.TextBox("nomusuario", "", new { @class = "form-control" })
+                                    @Html.TextBox("nomusuario", "", new { @id = "usuario", @class = "form-control" })
 
                                 </div>
 
                                 <div class="form-group mbd-4">
                                     <label for="password">Contraseña</label>
-                                    @Html.TextBox("password", "", new { @type = "password", @class = "form-control", @placeholder = "Ingresa tu contraseña" })
+                                    @Html.TextBox("password", "", new { @id="pass" , @type = "password", @class = "form-control", @placeholder = "Ingresa tu contraseña" })
 
                                 </div>
 
                                 <input type="submit" class="btn btn-block login-btn mb-4" value="Regístrate" />
+                                @Html.ActionLink("Retornar", "Tienda", new { nombre = "" }, new { @class = "btn btn-block login-btn mb-4" })
 
                             </form>
                         </div>
@@ -79,8 +80,10 @@
             </div>
         </div>
     </main>
+    <div style="color: red; font-size:21px">
+        @ViewBag.mensaje
+    </div>
 }
-
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

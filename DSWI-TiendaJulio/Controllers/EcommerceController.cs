@@ -298,7 +298,7 @@ namespace DSWI_TiendaJulio.Controllers
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
             ViewBag.clientes = clientes();
 
-            return RedirectToAction("Inicio", reg);
+            return View(reg);
         }
 
         public ActionResult Cerrar()
@@ -879,14 +879,12 @@ namespace DSWI_TiendaJulio.Controllers
         {
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
 
-            //envio los proveedores en ViewBag
             ViewBag.proveedores = proveedores();
             ViewBag.usuario = InicioSesion();
 
-            //preguntamos por id, si esta vacio es un nuevo proveedor, sino ejecutamos buscar
             Proveedor reg = (id == "" ? new Proveedor() : buscarProveedor(id));
 
-            //envio reg el Cliente a la Vista
+            
             return View(reg);
         }
 
@@ -923,9 +921,9 @@ namespace DSWI_TiendaJulio.Controllers
             catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
             finally { cn.Close(); }
 
-            //envias los distritos
+            
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
-            //envias los clientes
+   
             ViewBag.proveedores = proveedores();
             ViewBag.usuario = InicioSesion();
             return View(reg);
