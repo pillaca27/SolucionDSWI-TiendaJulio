@@ -347,7 +347,7 @@ namespace DSWI_TiendaJulio.Controllers
             string nropedido = autogenerado();
             string mensaje = "";//almaceno el mensaje del proceso
             string idcliente = (Session["login"] as Cliente).dni;
-
+            decimal monto = 0;
             //definir la transacción
             SqlConnection cn = new SqlConnection(cadena);
             cn.Open();
@@ -370,7 +370,14 @@ namespace DSWI_TiendaJulio.Controllers
                     cmd.Parameters.AddWithValue("@cantidad", reg.cantidad);
                     cmd.Parameters.AddWithValue("@subtotal", reg.monto);
                     cmd.ExecuteNonQuery();
+
+                    monto = monto + reg.monto;
                 }
+
+                cmd = new SqlCommand("Update Venta set monto=@monto where cod_ven = @cod", cn, tr);
+                cmd.Parameters.AddWithValue("@monto", monto);
+                cmd.Parameters.AddWithValue("@cod", nropedido);
+                cmd.ExecuteNonQuery();
                 //Si todo está OK
                 tr.Commit();
                 mensaje = string.Format("El pedido {0} ha sido registrado", nropedido);

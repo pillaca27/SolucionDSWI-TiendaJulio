@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.DetallePedido>
+
+@{
+    ViewBag.Title = "Selecciona";
+}
+
+<h2>Detalle del pedido seleccionado</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.cod_ven)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cod_pro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cantidad_pro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subtotal)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.cod_ven)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cod_pro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cantidad_pro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.subtotal)
+        </td>
+    </tr>
+}
+
+</table>

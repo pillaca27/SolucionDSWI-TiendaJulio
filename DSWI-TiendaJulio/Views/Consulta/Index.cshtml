@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DSWI_TiendaJulio.Models.Pedido>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>PEDIDOS REALIZADOS</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="col-2">
+        <span style="font-style: italic">Nombre de cliente</span>
+        @Html.TextBox("nombre", " ", new { htmlAttributes = new { @class = "form-control" } })
+        <button>Consulta</button>
+    </div>}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.cod_ven)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dni)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha_ped)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.monto)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cod_ven)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_ped)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.monto)
+            </td>
+            <td>
+                @Html.ActionLink("Selecciona", "Selecciona", new { id = item.cod_ven})
+            </td>
+        </tr>
+    }
+
+</table>

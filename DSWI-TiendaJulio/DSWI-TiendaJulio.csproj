@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ConsultaController.cs" />
     <Compile Include="Controllers\EcommerceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -128,10 +129,12 @@
     <Compile Include="Models\Cargo.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\DetallePedido.cs" />
     <Compile Include="Models\Distrito.cs" />
     <Compile Include="Models\Empleado.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Marca.cs" />
+    <Compile Include="Models\Pedido.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Proveedor.cs" />
     <Compile Include="Models\TipoUsuario.cs" />
@@ -238,6 +241,8 @@
     <Content Include="Views\Ecommerce\Registrarse.cshtml" />
     <Content Include="Views\Ecommerce\CrudCliente.cshtml" />
     <Content Include="Views\Shared\_PartialCliente.cshtml" />
+    <Content Include="Views\Consulta\Index.cshtml" />
+    <Content Include="Views\Consulta\Selecciona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
