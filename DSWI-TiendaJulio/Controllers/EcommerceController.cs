@@ -13,9 +13,9 @@ namespace DSWI_TiendaJulio.Controllers
     public class ECommerceController : Controller
     {
         string cadena = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
-        
+
         //TIENDA
-        
+
         IEnumerable<Producto> productos()
         {
             List<Producto> temporal = new List<Producto>();
@@ -84,7 +84,7 @@ namespace DSWI_TiendaJulio.Controllers
                 dr.Close(); cn.Close();
                 return temporal;
             }
-            else 
+            else
             {
                 SqlCommand cmd = new SqlCommand("SP_FILTRO_PRODUCTO", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -234,9 +234,9 @@ namespace DSWI_TiendaJulio.Controllers
 
         }
 
-        public ActionResult Inicio()
+        public ActionResult Inicio(Cliente reg)
         {
-            return View();
+            return View(reg);
         }
 
         [HttpPost] public ActionResult Inicio(string login, string clave)
@@ -268,37 +268,54 @@ namespace DSWI_TiendaJulio.Controllers
             return View(new Cliente());
         }
 
-        [HttpPost]public ActionResult Registrarse(Cliente reg, string nomusuario, string password)
+        [HttpPost] public ActionResult Registrarse(Cliente reg, string nomusuario, string password)
         {
             SqlConnection cn = new SqlConnection(cadena);
             cn.Open();
-            try
+
+            SqlCommand cmd = new SqlCommand("SP_CONSULTA_DNI", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DNI", reg.dni);
+
+            int count = (int)cmd.ExecuteScalar();
+
+            if (count == 0)
             {
-                SqlCommand cmd = new SqlCommand("SP_REGISTRA_CLIENTE", cn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DNI", reg.dni);
-                cmd.Parameters.AddWithValue("@NOMBRE", reg.nombre);
-                cmd.Parameters.AddWithValue("@TELEFONO", reg.telefono);
-                cmd.Parameters.AddWithValue("@DIRECCION", reg.direccion);
-                cmd.Parameters.AddWithValue("@DISTRITO", reg.COD_DIS);
-                cmd.Parameters.AddWithValue("@NOMUSUARIO", nomusuario);
-                cmd.Parameters.AddWithValue("@PASS", password);
-               int n = cmd.ExecuteNonQuery();
-               ViewBag.mensaje = n.ToString() + "Registro Agregado";
-            }
-            catch (SqlException ex) 
-            { 
-                ViewBag.mensaje = ex.Message;
-            }
-            finally 
-            { 
-                cn.Close(); 
-            }
+                try
+                {
+                    cmd = new SqlCommand("SP_REGISTRA_CLIENTE", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DNI", reg.dni);
+                    cmd.Parameters.AddWithValue("@NOMBRE", reg.nombre);
+                    cmd.Parameters.AddWithValue("@TELEFONO", reg.telefono);
+                    cmd.Parameters.AddWithValue("@DIRECCION", reg.direccion);
+                    cmd.Parameters.AddWithValue("@DISTRITO", reg.COD_DIS);
+                    cmd.Parameters.AddWithValue("@NOMUSUARIO", nomusuario);
+                    cmd.Parameters.AddWithValue("@PASS", password);
+                    int n = cmd.ExecuteNonQuery();
+                    ViewBag.mensaje = n.ToString() + "Registro Agregado";
+                }
+                catch (SqlException ex)
+                {
+                    ViewBag.mensaje = ex.Message;
+                }
+                finally
+                {
+                    cn.Close();
+                }
 
-            ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
-            ViewBag.clientes = clientes();
+                ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
+                ViewBag.clientes = clientes();
+                View(reg);
 
-            return View(reg);
+                return RedirectToAction("Inicio");
+            }
+            else
+            {
+                ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
+                ViewBag.mensaje = "Error al ingresar el DNI";
+                return View();
+            }
         }
 
         public ActionResult Cerrar()
@@ -399,13 +416,13 @@ namespace DSWI_TiendaJulio.Controllers
             //envio el de m
             ViewBag.mensaje = m;
             //finalizo la sesión
-            Session.Abandon();
+            Session["carrito"] = new List<Item>();
             return View();
         }
 
         //vista cruds
 
-        //EMPLEADO
+        //CRUD EMPLEADO
 
         IEnumerable<Distrito> distritos()
         {
@@ -611,7 +628,7 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("CrudEmpleado");
         }
 
-        //MARCA
+        //CRUD MARCA
 
         IEnumerable<Marca> marcas()
         {
@@ -721,7 +738,7 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("CrudMarca");
         }
 
-        //USUARIO
+        //CRUD USUARIO
 
         IEnumerable<TipoUsuario> tipoUsuarios()
         {
@@ -840,7 +857,7 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("CrudUsuario");
         }
 
-        //PROVEEDOR
+        //CRUD PROVEEDOR
 
         IEnumerable<Proveedor> proveedores()
         {
@@ -891,7 +908,7 @@ namespace DSWI_TiendaJulio.Controllers
 
             Proveedor reg = (id == "" ? new Proveedor() : buscarProveedor(id));
 
-            
+
             return View(reg);
         }
 
@@ -928,9 +945,9 @@ namespace DSWI_TiendaJulio.Controllers
             catch (SqlException ex) { ViewBag.mensaje = ex.Message; }
             finally { cn.Close(); }
 
-            
+
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE", reg.COD_DIS);
-   
+
             ViewBag.proveedores = proveedores();
             ViewBag.usuario = InicioSesion();
             return View(reg);
@@ -965,7 +982,7 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("CrudProveedor");
         }
 
-        //PRODUCTO
+        //CRUD PRODUCTO
 
         IEnumerable<Categoria> categorias()
         {
@@ -1127,7 +1144,7 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("CrudProducto");
         }
 
-        //CLIENTE
+        //CRUD CLIENTE
 
         Cliente buscarCliente(string id = "")
         {
@@ -1139,7 +1156,7 @@ namespace DSWI_TiendaJulio.Controllers
             return (buscarCliente(id) != null ? true : false);
         }
 
-        public ActionResult CrudCliente(string id = "", int eliminar = 0)
+        public ActionResult CrudCliente(string id = "")
         {
             ViewBag.distritos = new SelectList(distritos(), "COD_DIS", "NOMBRE");
 
@@ -1149,19 +1166,10 @@ namespace DSWI_TiendaJulio.Controllers
 
             Cliente reg = (id == "" ? new Cliente() : buscarCliente(id));
 
-            if (eliminar == 1)
-            {
-                ViewBag.mensaje = "Se eliminó Correctamente";
-            }
-            else if (eliminar == -1)
-            {
-                ViewBag.mensaje = "No se encuentra registro";
-            }
-
             return View(reg);
         }
 
-        [HttpPost]public ActionResult CrudCliente(Cliente reg)
+        [HttpPost] public ActionResult CrudCliente(Cliente reg)
         {
             string procedure = "";
             if (verificaCliente(reg.dni) == false)
@@ -1239,6 +1247,146 @@ namespace DSWI_TiendaJulio.Controllers
         {
             return RedirectToAction("CrudCliente", new { id = id });
 
+        }
+
+        //pedidos
+
+        IEnumerable<Pedido> pedidos(string nombre = "")
+        {
+            List<Pedido> temporal = new List<Pedido>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("MUESTRA_VENTA", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@NOMBRE", nombre);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Pedido reg = new Pedido()
+                    {
+                        cod_ven = dr.GetString(0),
+                        dni = dr.GetString(1),
+                        fecha_ped = dr.GetDateTime(2),
+                        monto = dr.GetDecimal(3)
+                    };
+                    temporal.Add(reg);
+                }
+                cn.Close();
+                dr.Close();
+            }
+            return temporal;
+        }
+
+        IEnumerable<DetallePedido> detallepedidos(string id = "")
+        {
+            List<DetallePedido> temporal = new List<DetallePedido>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("MUESTRA_DETALLEVENTA", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@COD", id);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    DetallePedido reg = new DetallePedido()
+                    {
+                        cod_ven = dr.GetString(0),
+                        cod_pro = dr.GetString(1),
+                        cantidad_pro = dr.GetInt32(2),
+                        subtotal = dr.GetDecimal(3)
+                    };
+                    temporal.Add(reg);
+                }
+                cn.Close();
+                dr.Close();
+            }
+            return temporal;
+
+        }
+
+        IEnumerable<Cliente> buscarcliente(string id = "") 
+        {
+            List<Cliente> temporal = new List<Cliente>();
+            using (SqlConnection cn = new SqlConnection(cadena)) 
+            {
+                SqlCommand cmd = new SqlCommand("Select dni, nombre from cliente where id = @id", cn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@id", id);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read()) 
+                {
+                    Cliente reg = new Cliente()
+                    {
+                        dni = dr.GetString(0),
+                        nombre = dr.GetString(1)
+                    };
+                    temporal.Add(reg);
+                }
+                cn.Close();
+                dr.Close();
+            }
+            return temporal;
+        }
+
+        IEnumerable<Producto> buscarproducto(string id = "")
+        {
+            List<Producto> temporal = new List<Producto>();
+            using (SqlConnection cn = new SqlConnection(cadena))
+            {
+                SqlCommand cmd = new SqlCommand("Select cod_pro, nom_pro, precio from Producto where cod_pro = @id", cn);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@id", id);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Producto reg = new Producto()
+                    {
+                        COD_PRO = dr.GetString(0),
+                        NOM_PRO = dr.GetString(1),
+                        PRECIO_VENTA = dr.GetDecimal(2)
+                    };
+                    temporal.Add(reg);
+                }
+                cn.Close();
+                dr.Close();
+            }
+            return temporal;
+        }
+
+        public ActionResult ListadoPedidos(string nombre = "")
+        {
+
+            IEnumerable<Pedido> listado = pedidos(nombre);
+
+            return View(listado);
+        }
+
+        public ActionResult DetalledelPedido(string id = "")
+        {
+
+            IEnumerable<DetallePedido> listado = detallepedidos(id);
+
+            return View(listado);
+        }
+
+        public ActionResult Venta()
+        {
+            
+            ViewBag.idempleado = (Session["login"] as Cliente).dni;
+            ViewBag.empleado = (Session["login"] as Cliente).nombre;
+            ViewBag.cliente = clientes();
+
+            return View();
+        }
+
+        [HttpPost] public ActionResult Venta(Pedido reg, DetallePedido reg2)
+        {
+
+            return View();
         }
 
 

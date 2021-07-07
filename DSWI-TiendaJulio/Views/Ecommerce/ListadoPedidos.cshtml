@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DSWI_TiendaJulio.Models.Pedido>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pedidos";
 }
 
 <h2>PEDIDOS REALIZADOS</h2>
@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.monto)
             </td>
             <td>
-                @Html.ActionLink("Selecciona", "Selecciona", new { id = item.cod_ven})
+                @Html.ActionLink("Selecciona", "DetalledelPedido", new { id = item.cod_ven })
             </td>
         </tr>
     }

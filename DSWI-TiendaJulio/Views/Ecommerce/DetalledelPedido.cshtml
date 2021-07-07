@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DSWI_TiendaJulio.Models.DetallePedido>
 
 @{
-    ViewBag.Title = "Selecciona";
+    ViewBag.Title = "Detalle del Pedido";
 }
 
 <h2>Detalle del pedido seleccionado</h2>
@@ -23,21 +23,22 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.cod_ven)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cod_pro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cantidad_pro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.subtotal)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cod_ven)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cod_pro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cantidad_pro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subtotal)
+            </td>
+        </tr>
+    }
 
 </table>
