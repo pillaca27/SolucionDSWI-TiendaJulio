@@ -8,20 +8,21 @@
 
 <h2>Venta</h2>
 
-@Html.TextBox("idcliente", " ")
-@Html.TextBox("nomcliente", " ")
+@Html.TextBox("idcliente", (String)ViewBag.idcliente)
+@Html.TextBox("nomcliente", (String)ViewBag.nomcliente)
 
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal">Buscar Cliente</button>
 
 @Html.TextBox("idempleado", (String)ViewBag.idempleado, new { @IsReadOnly = "True" })
 @Html.TextBox("nomempleado", (String)ViewBag.empleado)
 
-@Html.TextBox("idproducto", " ")
-@Html.TextBox("nomproducto", " ")
-@Html.TextBox("precioproducto", " ")
+@Html.TextBox("idproducto", (String)ViewBag.idproducto)
+@Html.TextBox("nomproducto", (String)ViewBag.nomproducto)
+@Html.TextBox("precioproducto", (Decimal)ViewBag.precioproducto, new { @type= "number" })
 @Html.TextBox("cantidad", " ")
 
-@Html.ActionLink("BuscarProducto", "BuscarProducto")
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal2">Buscar Producto</button>
+
 
 
 <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -46,7 +47,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12">
-                                @Html.Partial("_PartialCliente", (IEnumerable<Cliente>)ViewBag.cliente)
+                                @Html.Partial("_PartialListadoCliente", (IEnumerable<Cliente>)ViewBag.cliente)
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,38 @@
             </div>
         </div>
     </div>
+</div>
 
+<div class="modal fade" id="miModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Listado de Clientes</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel-group" id="steps">
+                    <div class="panel panel-default">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">
+                                Producto
+                            </label>
+                            <div class="col-lg-5">
+                                <input id="id_txtCliente" class="form-control" name="cliente" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                @Html.Partial("_PartialListadoProducto", (IEnumerable<Producto>)ViewBag.producto)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-    <button>Registrar Venta</button>
+<button>Registrar Venta</button>

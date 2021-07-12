@@ -243,6 +243,8 @@
     <Content Include="Views\Ecommerce\ListadoPedidos.cshtml" />
     <Content Include="Views\Ecommerce\DetalledelPedido.cshtml" />
     <Content Include="Views\Ecommerce\Venta.cshtml" />
+    <Content Include="Views\Ecommerce\_PartialListadoCliente.cshtml" />
+    <Content Include="Views\Ecommerce\_PartialListadoProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

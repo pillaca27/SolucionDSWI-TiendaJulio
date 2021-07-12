@@ -1115,9 +1115,14 @@ namespace DSWI_TiendaJulio.Controllers
             return View(reg);
         }
 
-        public ActionResult SelectProducto(string id)
+        public ActionResult SelectProducto(string id, string msj)
         {
-            //reenvias el id al Index para que imprima los datos
+            if (msj == "modal")
+            {
+                Producto reg = buscarproducto(id);
+                Session["productos"] = reg;
+                return RedirectToAction("Venta");
+            }
             return RedirectToAction("CrudProducto", new { id = id });
         }
 
@@ -1243,10 +1248,15 @@ namespace DSWI_TiendaJulio.Controllers
             return RedirectToAction("Clienteid", new { id = "", eliminar = i });
         }
 
-        public ActionResult Selectcli(string id)
+        public ActionResult Selectcli(string cod, string mensaje)
         {
-            return RedirectToAction("CrudCliente", new { id = id });
-
+           if (mensaje == "modal")
+           {
+                Cliente reg = buscarcliente(cod);
+                Session["clientes"] = reg;
+                return RedirectToAction("Venta");
+           }
+            return RedirectToAction("CrudCliente", new { id = cod });
         }
 
         //pedidos
@@ -1306,24 +1316,20 @@ namespace DSWI_TiendaJulio.Controllers
 
         }
 
-        IEnumerable<Cliente> buscarcliente(string id = "") 
+        public Cliente buscarcliente(string id = "") 
         {
-            List<Cliente> temporal = new List<Cliente>();
+            Cliente temporal = new Cliente();
             using (SqlConnection cn = new SqlConnection(cadena)) 
             {
-                SqlCommand cmd = new SqlCommand("Select dni, nombre from cliente where id = @id", cn);
+                SqlCommand cmd = new SqlCommand("Select dni, nombre from cliente where dni = @id", cn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@id", id);
                 cn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read()) 
+                while (dr.Read())
                 {
-                    Cliente reg = new Cliente()
-                    {
-                        dni = dr.GetString(0),
-                        nombre = dr.GetString(1)
-                    };
-                    temporal.Add(reg);
+                    temporal.dni = dr.GetString(0);
+                    temporal.nombre = dr.GetString(1);
                 }
                 cn.Close();
                 dr.Close();
@@ -1331,25 +1337,21 @@ namespace DSWI_TiendaJulio.Controllers
             return temporal;
         }
 
-        IEnumerable<Producto> buscarproducto(string id = "")
+        public Producto buscarproducto(string id = "")
         {
-            List<Producto> temporal = new List<Producto>();
+            Producto temporal = new Producto();
             using (SqlConnection cn = new SqlConnection(cadena))
             {
-                SqlCommand cmd = new SqlCommand("Select cod_pro, nom_pro, precio from Producto where cod_pro = @id", cn);
+                SqlCommand cmd = new SqlCommand("Select cod_pro, nom_pro, precio_venta from Producto where cod_pro = @id", cn);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@id", id);
                 cn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    Producto reg = new Producto()
-                    {
-                        COD_PRO = dr.GetString(0),
-                        NOM_PRO = dr.GetString(1),
-                        PRECIO_VENTA = dr.GetDecimal(2)
-                    };
-                    temporal.Add(reg);
+
+                while (dr.Read()) { 
+                temporal.COD_PRO = dr.GetString(0);
+                temporal.NOM_PRO = dr.GetString(1);
+                temporal.PRECIO_VENTA = dr.GetDecimal(2);
                 }
                 cn.Close();
                 dr.Close();
@@ -1375,11 +1377,44 @@ namespace DSWI_TiendaJulio.Controllers
 
         public ActionResult Venta()
         {
-            
+            Cliente reg = (Cliente)Session["clientes"];
+            Producto reg1 = (Producto)Session["productos"];
+
+            if (reg == null)
+            {
+                ViewBag.idcliente = " ";
+                ViewBag.nomcliente = " ";
+            }
+            else
+            {
+
+                ViewBag.idcliente = reg.dni;
+                ViewBag.nomcliente = reg.nombre;
+            }
+            if (reg1 == null)
+            {
+                ViewBag.idproducto = " ";
+                ViewBag.nomproducto = " ";
+                ViewBag.precioproducto = 0.0;
+            }
+            else
+            {
+                ViewBag.idproducto = reg1.COD_PRO;
+                ViewBag.nomproducto = reg1.NOM_PRO;
+                ViewBag.precioproducto = reg1.PRECIO_VENTA;
+            }
+
             ViewBag.idempleado = (Session["login"] as Cliente).dni;
             ViewBag.empleado = (Session["login"] as Cliente).nombre;
+
+            ViewBag.producto = productos();
             ViewBag.cliente = clientes();
 
+            if ()
+            {
+
+                Session.Remove("VariableSession");
+            }
             return View();
         }
 
