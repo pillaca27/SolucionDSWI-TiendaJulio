@@ -1409,12 +1409,6 @@ namespace DSWI_TiendaJulio.Controllers
 
             ViewBag.producto = productos();
             ViewBag.cliente = clientes();
-
-            if ()
-            {
-
-                Session.Remove("VariableSession");
-            }
             return View();
         }
 
